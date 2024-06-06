@@ -23,11 +23,11 @@ pipeline {
                      // bitbucket_token: 'BITBUCKET_TOKEN', // Use github_token for GitHub or gitlab_token for GitLab
                      // polaris_branch_parent_name: 'PARENT_BRANCH_NAME',
                      
-                     // project_directory: "PROJECT_DIRECTORY",
+                     project_directory: "/home/akib/Synopsys/node-goat-ado/node-goat",
                      // Uncomment below configuration for source code upload
-                     polaris_assessment_mode: "CI"
-                     // project_source_archive: "PROJECT_SOURCE_ARCHIVE",
-                     // project_source_excludes: "PROJECT_SOURCE_EXCLUDES",
+                     polaris_assessment_mode: "SOURCE_UPLOAD",
+                     // project_source_archive: "/home/akib/Synopsys/node-goat-ado/node-goat.zip",
+                     project_source_excludes: ".git,node_modules"
 
                      // SARIF report generation
                         // polaris_reports_sarif_create: true
