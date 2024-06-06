@@ -1,39 +1,42 @@
 pipeline {
-    agent any
-    environment {
-        // BLACKDUCK_TRUST_CERT=true
-        BRIDGE_POLARIS_SERVERURL = 'https://poc.polaris.synopsys.com'
-        BRIDGE_POLARIS_ACCESSTOKEN = credentials('poc-polaris-token')
+    agent {
+        label 'akib-linux'
     }
     stages {
-        stage("unit-test") {
-            steps {
-                echo 'UNIT TEST EXECUTION STARTED'
-            }
-        }
-        stage("functional-test") {
-            steps {
-                echo 'FUNCTIONAL TEST EXECUTION STARTED'
-            }
-        }
         stage("synopsys-security-scan") {
-           steps {
-               echo 'SYNOPSYS SECURITY SCAN STARTED'
-               script {
-                   synopsys_scan product: "polaris",
-                       // polaris_server_url: "${BRIDGE_POLARIS_SERVERURL}",
-                       // polaris_access_token: "${BRIDGE_POLARIS_ACCESSTOKEN}",
-                       polaris_assessment_types: "SCA", 
-                       polaris_branch_name: "main",
-                       polaris_application_name: "test_jenkins",
-                       polaris_project_name: "springboot-pipeline-test"
-                }
-            }           
-        }
-        stage("build") {
             steps {
-                echo 'BUILD EXECUTION STARTED'
-                echo 'Pulling...' + env.BRANCH_NAME
+                script {
+                    synopsys_scan product: 'polaris',
+                     // Uncomment if below parameters are not set in global configuration
+                     // polaris_server_url: 'POLARIS_SERVER_URL',
+                     // polaris_access_token: 'POLARIS_TOKEN', 
+                        polaris_assessment_types: 'SAST,SCA',
+
+                     //Optional for multibranch pipeline
+
+                     polaris_application_name: 'test_ado', 
+                     polaris_project_name: 'test_ado',
+                     polaris_branch_name: 'main',
+
+                     // Pull Request Comments
+                        polaris_prComment_enabled: true,
+                     // bitbucket_token: 'BITBUCKET_TOKEN', // Use github_token for GitHub or gitlab_token for GitLab
+                     // polaris_branch_parent_name: 'PARENT_BRANCH_NAME',
+                     
+                     // project_directory: "PROJECT_DIRECTORY",
+                     // Uncomment below configuration for source code upload
+                     polaris_assessment_mode: "CI"
+                     // project_source_archive: "PROJECT_SOURCE_ARCHIVE",
+                     // project_source_excludes: "PROJECT_SOURCE_EXCLUDES",
+
+                     // SARIF report generation
+                        // polaris_reports_sarif_create: true
+                     // Optional parameters
+                     // polaris_reports_sarif_file_path: 'SARIF_FILE_PATH',
+                     // polaris_reports_sarif_groupSCAIssues: true,
+                     // polaris_reports_sarif_issue_types: 'SAST, SCA',
+                     // polaris_reports_sarif_severities: 'CRITICAL,HIGH'
+                }
             }
         }
     }
