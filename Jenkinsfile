@@ -26,7 +26,7 @@ pipeline {
                      project_directory: "/home/akib/Synopsys/node-goat-ado/node-goat",
                      // Uncomment below configuration for source code upload
                      polaris_assessment_mode: "SOURCE_UPLOAD",
-                     // project_source_archive: "/home/akib/Synopsys/node-goat-ado/node-goat.zip",
+                     project_source_archive: "/home/akib/Synopsys/node-goat-ado/node-goat.zip",
                      project_source_excludes: ".git,node_modules"
 
                      // SARIF report generation
