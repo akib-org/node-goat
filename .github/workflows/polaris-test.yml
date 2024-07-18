@@ -38,4 +38,4 @@ jobs:
           polaris_assessment_types: "SCA,SAST"
           polaris_reports_sarif_create: true
           polaris_upload_sarif_report: true
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAT_GITHUB }}
